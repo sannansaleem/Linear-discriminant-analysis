@@ -1,0 +1,104 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{xcolor}
+\usepackage{sectsty}
+\usepackage{xcolor,colortbl}
+\usepackage{float}
+\usepackage{soul}
+\usepackage{tikz}
+\usepackage[english]{babel}
+\usetikzlibrary{positioning}
+\usepackage{xcolor,cancel}
+\usepackage{amsmath}
+\usepackage[makeroom]{cancel}
+
+\newcommand\hcancel[2][black]{\setbox0=\hbox{$#2$}%
+\rlap{\raisebox{.45\ht0}{\textcolor{#1}{\rule{\wd0}{1pt}}}}#2} 
+
+
+\title{ECON 4P05 \\ Midterm Bonus}
+\author{Sannan Saleem 5889431}
+
+\begin{document}
+%color
+\sectionfont{\color{PineGreen}}
+\subsectionfont{\color{Maroon}}
+\subsubsectionfont{\color{MidnightBlue}}
+
+\maketitle
+
+%outer border
+\begin{tikzpicture}[remember picture,overlay]
+     \draw[Yellow!70!black,line width=4pt] 
+     ([xshift=-1.5cm,yshift=-2cm]current page.north east) coordinate (A)--([xshift=1.5cm,yshift=-2cm]current page.north west) coordinate(B)--([xshift=1.5cm,yshift=2cm]current page.south west) coordinate (C)--([xshift=-1.5cm,yshift=2cm]current page.south east) coordinate(D)--cycle;
+\end{tikzpicture}
+
+%inner border
+\begin{tikzpicture}[remember picture,overlay]
+     \draw[PineGreen!40!WildStrawberry,line width=4.5pt] 
+     ([xshift=-2cm,yshift=-2.5cm]current page.north east) coordinate (A)--([xshift=2cm,yshift=-2.5cm]current page.north west) coordinate(B)--([xshift=2cm,yshift=2.5cm]current page.south west) coordinate (C)--([xshift=-2cm,yshift=2.5cm]current page.south east) coordinate(D)--cycle;
+\end{tikzpicture}
+\newpage
+Let us start by considering the LDA equation to find Bayes decision boundaries for two separate deltas  $\delta_{1}(x)$ and $\delta_{2}(x)$ where the  mean of X in class one is -1.25 while the mean of X in class two is 1.25 and we assume equal priors and constant variance
+\begin{equation}
+\delta_{1}(x)= log(\pi)  + x\frac{\mu_{1}}{\theta ^{2}} - \frac{\mu _{1}^{2}}{2\theta ^{2}}
+\end{equation}
+
+\begin{equation}
+\delta_{2}(x)= log(\pi)  + x\frac{\mu_{2}}{\theta ^{2}} - \frac{\mu _{2}^{2}}{2\theta ^{2}}
+\end{equation}
+
+if \delta_{1}(x) = \delta_{2}(x) \Rightarrow $log(\pi)  + x\frac{\mu_{1}}{\theta ^{2}} - \frac{\mu _{1}^{2}}{2\theta ^{2}}=log\pi  + x\frac{\mu_{2}}{\theta ^{2}} - \frac{\mu _{2}^{2}}{2\theta ^{2}}$
+
+\hspace{2.4cm} \Rightarrow \hcancel[red]{$log(\pi)}  + x\frac{\mu_{1}}{\theta ^{2}} - \frac{\mu _{1}^{2}}{2\theta ^{2}}=\hcancel[red]{log\pi}  + x\frac{\mu_{2}}{\theta ^{2}} - \frac{\mu _{2}^{2}}{2\theta ^{2}}$
+
+\hspace{2.4cm} \Rightarrow  x\cancelto{\mu_{1}}{\frac{\mu_{1}}{\theta ^{2}}} - \cancelto{\mu _{1}^{2}}{\frac{\mu _{1}^{2}}{2\theta ^{2}}}= x\cancelto{\mu_{2}}{\frac{\mu_{2}}{\theta ^{2}}} - \cancelto{\mu _{2}^{2}}{\frac{\mu _{1}^{2}}{2\theta ^{2}}}\\
+
+\hspace{2.4cm} \Rightarrow  x = \frac{\mu_{1}^{2} -\mu_{2}^{2}}{2(\mu_{1} - \mu_{2}}\\
+
+Since we know that $\mu_{1} = 1.25$ and $\mu_{2} = -1.25$ :\\
+
+\hspace{2.4cm} \Rightarrow x = \frac{(1.25)^{2} - (-1.25)^{2}}{2(1.25-(-1.25)} = 0\\
+
+i.e. the decision boundary lies at x = 0\\
+
+Creating an R-Plot results in the following code: 
+
+\begin{verbatim}
+set.seed(5889431)
+sample_1<-rnorm(10000000,1.25,1)
+sample_2<-rnorm(10000000,-1.25,1)
+
+mean(sample_1)   
+mean(sample_2)
+sd(sample_1)
+sd(sample_2)
+
+plot(density(sample_1), col="blue", main="Normal Density Distribution Curve)
+     lines(density(sample_2), col="red")
+           abline(v=0, col="green")
+\end{verbatim}\\
+
+\newpage
+The resulting point estimates of sample 1 and sample 2 are as follows:\\
+
+
+\begin{verbatim}
+> mean(sample_1)   
+[1] 1.250092
+
+> mean(sample_2)
+[1] -1.250261
+
+> sd(sample_1)
+[1] 1.000018
+
+> sd(sample_2)
+[1] 1.000054
+\end{verbatim}
+\\
+and outputs the following graph as can be seen on the next page  where the blue curve represents the standard normal distribution of sample 1, the red curve represents the standard normal distribution of sample 2, and the green line is where our decision boudaries lie 
+
+\end{document}
